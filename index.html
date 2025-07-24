@@ -18,6 +18,7 @@
             <p>Loading...</p>
         </div>
     </div>
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
@@ -31,28 +32,35 @@
                 <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <div class="theme-toggle">
                 <i class="fas fa-moon" id="theme-icon"></i>
             </div>
         </div>
+        <div class="scroll-progress">
+            <div class="progress-bar"></div>
+        </div>
     </nav>
-    <div class="scroll-progress">
-        <div class="progress-bar"></div>
-    </div>
-    
+
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1>Hello, I'm <span class="highlight">Your Name</span></h1>
-            <p class="hero-subtitle">Full Stack Developer</p>
-            <p class="hero-description">I create beautiful and functional web applications</p>
-            <div class="hero-buttons">
-                <a href="#projects" class="btn btn-primary">View My Work</a>
-                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+            <div>
+                <h1>Hello, I'm <span class="highlight">Your Name</span></h1>
+                <p class="hero-subtitle">Full Stack Developer</p>
+                <p class="hero-description">I create beautiful and functional web applications</p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View My Work</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
             </div>
-        </div>
-        <div class="hero-image">
-            <img src="images/profile.jpg" alt="Profile Picture">
+            <div class="hero-image">
+                <img src="https://via.placeholder.com/300x300/667eea/ffffff?text=Your+Photo" alt="Profile Picture">
+            </div>
         </div>
     </section>
 
@@ -62,8 +70,7 @@
             <h2 class="section-title">About Me</h2>
             <div class="about-content">
                 <div class="about-text">
-                    <p>I am a passionate Full Stack Developer with experience in creating web applications using modern
-                        technologies. I love solving complex problems and learning new technologies.</p>
+                    <p>I am a passionate Full Stack Developer with experience in creating web applications using modern technologies. I love solving complex problems and learning new technologies.</p>
                     <div class="about-stats">
                         <div class="stat-item">
                             <h3>2+</h3>
@@ -80,7 +87,7 @@
                     </div>
                 </div>
                 <div class="about-image">
-                    <img src="images/about.jpg" alt="About Image">
+                    <img src="https://via.placeholder.com/400x300/764ba2/ffffff?text=About+Image" alt="About Image">
                 </div>
             </div>
         </div>
@@ -131,34 +138,34 @@
             <h2 class="section-title">My Projects</h2>
             <div class="projects-grid">
                 <div class="project-card">
-                    <img src="images/project1.jpg" alt="Project 1">
+                    <img src="https://via.placeholder.com/400x200/667eea/ffffff?text=E-commerce" alt="Project 1">
                     <div class="project-info">
                         <h3>E-commerce Website</h3>
                         <p>A full-stack e-commerce solution built with React and Node.js</p>
                         <div class="project-links">
-                            <a href="#" class="btn btn-small">Live Demo</a>
+                            <a href="#" class="btn btn-small btn-primary">Live Demo</a>
                             <a href="#" class="btn btn-small btn-secondary">GitHub</a>
                         </div>
                     </div>
                 </div>
                 <div class="project-card">
-                    <img src="images/project2.jpg" alt="Project 2">
+                    <img src="https://via.placeholder.com/400x200/764ba2/ffffff?text=Task+Manager" alt="Project 2">
                     <div class="project-info">
                         <h3>Task Management App</h3>
                         <p>A collaborative task management application with real-time updates</p>
                         <div class="project-links">
-                            <a href="#" class="btn btn-small">Live Demo</a>
+                            <a href="#" class="btn btn-small btn-primary">Live Demo</a>
                             <a href="#" class="btn btn-small btn-secondary">GitHub</a>
                         </div>
                     </div>
                 </div>
                 <div class="project-card">
-                    <img src="images/project3.jpg" alt="Project 3">
+                    <img src="https://via.placeholder.com/400x200/6c5ce7/ffffff?text=Weather+App" alt="Project 3">
                     <div class="project-info">
                         <h3>Weather App</h3>
                         <p>A responsive weather application with location-based forecasts</p>
                         <div class="project-links">
-                            <a href="#" class="btn btn-small">Live Demo</a>
+                            <a href="#" class="btn btn-small btn-primary">Live Demo</a>
                             <a href="#" class="btn btn-small btn-secondary">GitHub</a>
                         </div>
                     </div>
@@ -217,7 +224,7 @@
             <p>&copy; 2025 Your Name. Software Engineering, RMUTL. All rights reserved.</p>
         </div>
     </footer>
-    <script src="script.js"></script>
+    <script src="js/script.js"  defer></script>
 </body>
 
 </html>

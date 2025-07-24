@@ -1,5 +1,4 @@
-// Mobile Navigation Toggle
-        const navToggle = document.querySelector('.nav-toggle');
+       const navToggle = document.querySelector('.nav-toggle');
         const navMenu = document.querySelector('.nav-menu');
 
         navToggle.addEventListener('click', () => {
@@ -17,11 +16,13 @@
 
         // Smooth scrolling for navigation links
         document.addEventListener('DOMContentLoaded', () => {
-            // Theme toggle setup
+            // Theme toggle setup - Fixed dark mode
             const themeToggle = document.getElementById('theme-icon');
             const currentTheme = localStorage.getItem('theme') || 'light';
 
+            // Apply theme immediately
             document.documentElement.setAttribute('data-theme', currentTheme);
+            document.body.setAttribute('data-theme', currentTheme);
             updateThemeIcon(currentTheme);
 
             themeToggle.addEventListener('click', () => {
@@ -29,6 +30,7 @@
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
                 document.documentElement.setAttribute('data-theme', newTheme);
+                document.body.setAttribute('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
                 updateThemeIcon(newTheme);
             });
