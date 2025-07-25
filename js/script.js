@@ -164,8 +164,8 @@ window.addEventListener('load', () => {
         loader.classList.add('fade-out');
         setTimeout(() => {
             loader.style.display = 'none';
-        }, 500);
-    }, 1000);
+        }, 500); // ระยะเวลา fade out สั้นลง
+    }, 500); // แสดงโหลดแค่ 0.5 วินาที
 });
 
 // Scroll Progress Indicator
