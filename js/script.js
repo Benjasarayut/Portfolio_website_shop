@@ -33,9 +33,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+        navbar.classList.add('scrolled');
     } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        navbar.classList.remove('scrolled');
     }
 });
 
@@ -176,3 +176,14 @@ window.addEventListener('scroll', () => {
     
     document.querySelector('.progress-bar').style.width = scrollPercent + '%';
 });
+
+// Paly Music
+document.addEventListener("DOMContentLoaded", function () {
+  const music = document.getElementById("bgMusic");
+  const playBtn = document.getElementById("playMusicBtn");
+
+  playBtn.addEventListener("click", function () {
+    music.play();
+  });
+});
+
