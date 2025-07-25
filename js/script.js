@@ -158,15 +158,14 @@ function updateThemeIcon(theme) {
 }
 
 // Loading Animation
-window.addEventListener('load', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const loader = document.querySelector('.loader');
+    loader.classList.add('fade-out');
     setTimeout(() => {
-        loader.classList.add('fade-out');
-        setTimeout(() => {
-            loader.style.display = 'none';
-        }, 500); // ระยะเวลา fade out สั้นลง
-    }, 500); // แสดงโหลดแค่ 0.5 วินาที
+        loader.style.display = 'none';
+    }, 1000);
 });
+
 
 // Scroll Progress Indicator
 window.addEventListener('scroll', () => {
@@ -175,15 +174,5 @@ window.addEventListener('scroll', () => {
     const scrollPercent = (scrollTop / docHeight) * 100;
     
     document.querySelector('.progress-bar').style.width = scrollPercent + '%';
-});
-
-// Paly Music
-document.addEventListener("DOMContentLoaded", function () {
-  const music = document.getElementById("bgMusic");
-  const playBtn = document.getElementById("playMusicBtn");
-
-  playBtn.addEventListener("click", function () {
-    music.play();
-  });
 });
 
