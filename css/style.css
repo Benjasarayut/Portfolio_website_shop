@@ -172,9 +172,13 @@ body {
 }
 
 /* About Section */
-.about {
-  padding: 100px 0;
-  background: #f8f9fa;
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding: 40px 20px;
 }
 
 .about-content {
@@ -187,7 +191,7 @@ body {
 .about-text p {
   font-size: 1.1rem;
   margin-bottom: 2rem;
-  color: #666;
+  color: var(--paragraph-color);
 }
 
 .about-stats {
@@ -196,18 +200,71 @@ body {
   gap: 1rem;
 }
 
+/* กล่องรวมรูป */
+.about-left {
+  display: flex;
+  flex-direction: row;
+  /* แนวนอน */
+  gap: 20px;
+}
+
 .stat-item {
   text-align: center;
 }
 
 .stat-item h3 {
   font-size: 2rem;
-  color: #3498db;
+  color: #430f74;
   margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.stat-item p {
+  color: var(--paragraph-color);
+  font-weight: 500;
+}
+
+/* กรอบแปดเหลี่ยม */
+.octagon-frame {
+  width: 250px;
+  height: 250px;
+  background: #8b5cf6;
+  clip-path: polygon(30% 0%,
+      70% 0%,
+      100% 30%,
+      100% 70%,
+      70% 100%,
+      30% 100%,
+      0% 70%,
+      0% 30%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.about-img-container {
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
+  display: flex;
+  gap: 20px;
 }
 
 .about-image img {
+  max-width: 200px;
   width: 100%;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* รูปภาพข้างใน */
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 10px;
 }
 
