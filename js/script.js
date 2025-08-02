@@ -1,222 +1,100 @@
-const apiKey = '5d842ba0a15630b65e9421fe07cd1ebe';
-const searchForm = document.querySelector('#search-form');
-const cityInput = document.querySelector('#city-input');
-const weatherInfoContainer = document.querySelector('#weather-info-container');
-const forecastContainer = document.querySelector('#forecast-container');
-const forecastGrid = document.querySelector('#forecast-grid');
-const searchHistory = document.querySelector('#search-history');
+// Mobile Navigation Toggle
+const navToggle = document.querySelector('.nav-toggle');
+const navMenu = document.querySelector('.nav-menu');
 
-// Search history management
-let searchHistoryData = JSON.parse(localStorage.getItem('weatherSearchHistory')) || [];
-
-searchForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const cityName = cityInput.value.trim();
-
-    if (cityName) {
-        getWeather(cityName);
-        addToSearchHistory(cityName);
-    } else {
-        alert('กรุณาป้อนชื่อเมือง');
-    }
+navToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    navToggle.classList.toggle('active');
 });
 
-// Show/hide search history
-cityInput.addEventListener('focus', showSearchHistory);
-cityInput.addEventListener('blur', () => {
-    setTimeout(hideSearchHistory, 200); // Delay to allow clicking on history items
-});
-
-cityInput.addEventListener('input', (e) => {
-    if (e.target.value.length > 0) {
-        showSearchHistory();
-    } else {
-        hideSearchHistory();
-    }
-});
-
-async function getWeather(city) {
-    weatherInfoContainer.innerHTML = `<p>กำลังโหลดข้อมูล... <span class="loading"></span></p>`;
-    forecastContainer.style.display = 'none';
-
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=th`;
-
-    try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-            throw new Error('ไม่พบข้อมูลเมืองนี้');
-        }
-        const data = await response.json();
-        displayWeather(data);
-        getForecast(city);
-        updateBackground(data);
-    } catch (error) {
-        weatherInfoContainer.innerHTML = `<p class="error">${error.message}</p>`;
-        forecastContainer.style.display = 'none';
-    }
-
-}
-
-async function getForecast(city) {
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric&lang=th`;
-
-    try {
-        const response = await fetch(forecastUrl);
-        if (!response.ok) throw new Error('ไม่สามารถโหลดพยากรณ์อากาศได้');
-
-        const data = await response.json();
-        displayForecast(data);
-    } catch (error) {
-        console.error('Forecast error:', error);
-    }
-    localStorage.setItem('lastCity', city);
-}
-
-function displayWeather(data) {
-    const { name, main, weather, wind } = data;
-    const { temp, humidity, feels_like } = main;
-    const { description, icon } = weather[0];
-    const windSpeed = wind ? wind.speed : 0;
-
-    const weatherHtml = `
-                <h2>${name}</h2>
-                <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="${description}">
-                <p class="temp">${temp.toFixed(1)}°C</p>
-                <p>${description}</p>
-                <p>รู้สึกเหมือน: ${feels_like.toFixed(1)}°C</p>
-                <p>ความชื้น: ${humidity}%</p>
-                <p>ความเร็วลม: ${windSpeed.toFixed(1)} m/s</p>
-            `;
-    weatherInfoContainer.innerHTML = weatherHtml;
-}
-
-function displayForecast(data) {
-    const forecasts = data.list.filter((item, index) => index % 8 === 0).slice(0, 5); // Every 24 hours, 5 days
-
-    let forecastHtml = '';
-    forecasts.forEach((forecast, index) => {
-        const date = new Date(forecast.dt * 1000);
-        const dayName = index === 0 ? 'วันนี้' : date.toLocaleDateString('th-TH', { weekday: 'short' });
-        const temp = forecast.main.temp.toFixed(1);
-        const icon = forecast.weather[0].icon;
-        const description = forecast.weather[0].description;
-
-        forecastHtml += `
-                    <div class="forecast-item">
-                        <div class="forecast-day">${dayName}</div>
-                        <img class="forecast-icon" src="https://openweathermap.org/img/wn/${icon}.png" alt="${description}">
-                        <div class="forecast-temp">${temp}°C</div>
-                        <div class="forecast-desc">${description}</div>
-                    </div>
-                `;
+// Close mobile menu when clicking on a link
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        navToggle.classList.remove('active');
     });
+});
 
-    forecastGrid.innerHTML = forecastHtml;
-    forecastContainer.style.display = 'block';
-}
+// Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
 
-function updateBackground(data) {
-    const now = new Date();
-    const hour = now.getHours();
-    const isDaytime = hour >= 6 && hour <= 18;
-    const temp = data.main.temp;
-    const weatherMain = data.weather[0].main.toLowerCase();
-
-    document.body.className = ''; // Reset classes
-
-    // Weather-based background
-    if (weatherMain.includes('rain')) {
-        document.body.classList.add('rainy');
-    } else if (weatherMain.includes('snow')) {
-        document.body.classList.add('snowy');
-    } else if (weatherMain.includes('cloud')) {
-        document.body.classList.add(isDaytime ? 'cloudy-day' : 'cloudy-night');
-    } else if (weatherMain.includes('clear')) {
-        document.body.classList.add(isDaytime ? 'sunny-day' : 'sunny-night');
-    }
-
-    // Temperature-based adjustments
-    if (temp > 35) {
-        document.body.classList.add('hot');
-    } else if (temp < 10) {
-        document.body.classList.add('cold');
-    }
-}
-
-function addToSearchHistory(city) {
-    // Remove if already exists
-    searchHistoryData = searchHistoryData.filter(item => item.toLowerCase() !== city.toLowerCase());
-    // Add to beginning
-    searchHistoryData.unshift(city);
-    // Keep only last 5 searches
-    searchHistoryData = searchHistoryData.slice(0, 5);
-    // Save to localStorage
-    localStorage.setItem('weatherSearchHistory', JSON.stringify(searchHistoryData));
-    // Update last searched city
-    localStorage.setItem('lastCity', city);
-}
-
-function showSearchHistory() {
-    if (searchHistoryData.length === 0) {
-        searchHistory.style.display = 'none';
-        return;
-    }
-
-    const historyHtml = searchHistoryData
-        .filter(city => city.toLowerCase().includes(cityInput.value.toLowerCase()))
-        .map(city => `<div class="search-history-item" onclick="selectHistoryItem('${city}')">${city}</div>`)
-        .join('');
-
-    if (historyHtml) {
-        searchHistory.innerHTML = historyHtml;
-        searchHistory.style.display = 'block';
+// Navbar background on scroll
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 100) {
+        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
     } else {
-        searchHistory.style.display = 'none';
-    }
-}
-
-function hideSearchHistory() {
-    searchHistory.style.display = 'none';
-}
-
-function selectHistoryItem(city) {
-    cityInput.value = city;
-    hideSearchHistory();
-    getWeather(city);
-}
-
-// Load last searched city on page load
-window.addEventListener('DOMContentLoaded', () => {
-    const lastCity = localStorage.getItem('lastCity');
-    if (lastCity) {
-        cityInput.value = lastCity;
-        getWeather(lastCity);
+        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
     }
 });
 
-// Close search history when clicking outside
-document.addEventListener('click', (e) => {
-    if (!searchForm.contains(e.target)) {
-        hideSearchHistory();
+// Contact form handling
+const contactForm = document.querySelector('.contact-form');
+contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Get form data
+    const formData = new FormData(contactForm);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const message = formData.get('message');
+    
+    // Simple validation
+    if (name && email && message) {
+        alert('Thank you for your message! I will get back to you soon.');
+        contactForm.reset();
+    } else {
+        alert('Please fill in all fields.');
     }
 });
 
-function updateBackground(weather) {
-    const now = new Date();
-    const hour = now.getHours();
-    const isDaytime = hour >= 6 && hour <= 18;
+// Dark Mode Toggle
+const themeToggle = document.getElementById('theme-icon');
+const currentTheme = localStorage.getItem('theme') || 'light';
 
-    if (isDaytime) {
-        document.body.style.background = 'linear-gradient(135deg, #87cefa, #f0e68c)';
-    } else {
-        document.body.style.background = 'linear-gradient(135deg, #0f2027, #203a43, #2c5364)';
-    }
+document.documentElement.setAttribute('data-theme', currentTheme);
+updateThemeIcon(currentTheme);
+
+themeToggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
+});
+
+function updateThemeIcon(theme) {
+    themeToggle.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    const lastCity = localStorage.getItem('lastCity');
-    if (lastCity) {
-        cityInput.value = lastCity;
-        getWeather(lastCity);
-    }
+// Loading Animation
+window.addEventListener('load', () => {
+    const loader = document.querySelector('.loader');
+    setTimeout(() => {
+        loader.classList.add('fade-out');
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 500);
+    }, 1000);
+});
+
+// Scroll Progress Indicator
+window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset;
+    const docHeight = document.body.offsetHeight - window.innerHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+    
+    document.querySelector('.progress-bar').style.width = scrollPercent + '%';
 });
